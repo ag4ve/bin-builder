@@ -1,0 +1,14 @@
+
+ARG UNAME=test
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g ${GID} -o ${UNAME} \
+  && useradd -m -u ${UID} -g ${GID} -o -s /bin/sh ${UNAME} \
+  && install -d -o ${UID} -g ${GID} -m 770 /app
+
+USER ${UNAME}
+WORKDIR /app
+
+ENTRYPOINT ['sh', '-c']
+
