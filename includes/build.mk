@@ -10,13 +10,13 @@ ASSETS_FULL := $(shell cat assets.txt)
 FULL_IMAGE := $(notdir $(CURDIR))
 IMAGE := $(word 1, $(subst _, ,$(FULL_IMAGE)))
 
-PHONY: all
+.PHONY: all
 all: $(ASSETS)
 
 Dockerfile:
 	cat Dockerfile.in ../includes/Dockerfile.part > Dockerfile
 
-PHONY: docker-build
+.PHONY: docker-build
 docker-build: Dockerfile
 	docker build \
 		--no-cache \
