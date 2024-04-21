@@ -1,0 +1,10 @@
+cargo
+eza
+bob-nvim
+difftastic
+fd-find
+du-dust
+ripgrep
+bottom
+git-delta
+cross

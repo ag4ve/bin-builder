@@ -1,13 +1,17 @@
 # Makefile with just enough logic to find and kick off other makefiles.
 
+REGISTRY ?= $(shell hostname)
+ASSET_DIR := assets
+
 MAKEFILES := $(wildcard */Makefile)
-IMAGES := $(subst /Makefile,,$(MAKEFILES))
+FULL_IMAGES := $(subst /Makefile,,$(MAKEFILES))
+IMAGES := $(foreach img,$(FULL_IMAGES),$(wordlist 1,1,$(subst _, ,$(img))))
 
 .PHONY: all
 all: load-env docker-build-all
 
 .PHONY: docker-build-all
-docker-build-all: $(IMAGES)
+docker-build-all: $(FULL_IMAGES)
 
 .PHONY: load-env
 # Load environment variables from a file
@@ -19,19 +23,20 @@ load-env:
 		echo "No .env file found."; \
 	fi
 
-.PHONY: $(IMAGES)
-$(IMAGES):
+.PHONY: $(FULL_IMAGES)
+$(FULL_IMAGES):
 	make -C $@
 
 .PHONY: docker-clean
 # Remove Docker image
 docker-clean:
-	docker rmi -f $(IMAGES)
+	docker rmi -f $(patsubst %, $(REGISTRY)/%, $(IMAGES))
+	rm -f $(addsuffix /Dockerfile, $(FULL_IMAGES))
 
 .PHONY: asset-clean
 # Remove assets
 asset-clean:
-	rm -Rf assets/*
+	rm -Rf $(ASSET_DIR)/*
 
 .PHONY: clean
 # Remove everything
