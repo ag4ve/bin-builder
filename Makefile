@@ -7,6 +7,8 @@ MAKEFILES := $(wildcard */Makefile)
 FULL_IMAGES := $(subst /Makefile,,$(MAKEFILES))
 IMAGES := $(foreach img,$(FULL_IMAGES),$(wordlist 1,1,$(subst _, ,$(img))))
 
+IMAGE_IDS = $(shell docker images -q $(REGISTRY)/*)
+
 .PHONY: all
 all: load-env docker-build-all
 
@@ -30,7 +32,10 @@ $(FULL_IMAGES):
 .PHONY: docker-clean
 # Remove Docker image
 docker-clean:
-	docker rmi -f $(patsubst %, $(REGISTRY)/%, $(IMAGES))
+ifneq (,$(IMAGE_IDS))
+	echo defined $(IMAGE_IDS)
+	docker rmi -f $(IMAGE_IDS)
+endif
 	rm -f $(addsuffix /Dockerfile, $(FULL_IMAGES))
 
 .PHONY: asset-clean
