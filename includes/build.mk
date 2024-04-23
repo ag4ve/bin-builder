@@ -11,7 +11,8 @@ FULL_IMAGE := $(notdir $(CURDIR))
 IMAGE := $(word 1, $(subst _, ,$(FULL_IMAGE)))
 
 .PHONY: all
-all: $(ASSETS)
+all: docker-build $(ASSETS)
+	echo $(ASSETS)
 
 Dockerfile:
 	cat Dockerfile.in ../includes/Dockerfile.part > Dockerfile

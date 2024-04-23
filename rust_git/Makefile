@@ -4,7 +4,7 @@ include ../includes/build.mk
 # Strip binary/target name from asset URL
 ASSETS := $(addprefix ../$(ASSET_DIR)/, $(lastword $(subst /, ,$(ASSETS_FULL))))
 
-$(ASSETS): docker-build
+$(ASSETS):
 	NAME = $(notdir $@)
 	URL = $(filter $(NAME), $(ASSETS_FULL))
 	docker run --rm \

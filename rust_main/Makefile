@@ -3,7 +3,7 @@ include ../includes/build.mk
 
 ASSETS := $(addprefix ../$(ASSET_DIR)/, $(ASSETS_FULL))
 
-$(ASSETS): docker-build
+$(ASSETS):
 	NAME = $(notdir $@)
 	docker run --rm \
 		--name cargo \
