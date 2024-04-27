@@ -36,7 +36,7 @@ ifneq (,$(IMAGE_IDS))
 	echo defined $(IMAGE_IDS)
 	docker rmi -f $(IMAGE_IDS)
 endif
-	rm -f $(addsuffix /Dockerfile, $(FULL_IMAGES))
+	rm -f $(filter-out includes/%, $(wildcard */Dockerfile.*))
 
 .PHONY: asset-clean
 # Remove assets
