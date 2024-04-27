@@ -1,0 +1,12 @@
+FROM $from
+
+RUN --mount=type=cache,target=/var/cache/apt \
+  --mount=type=cache,target=/var/lib/apt/lists \
+  rm -f /etc/apt/apt.conf.d/docker-clean \
+  && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache \
+  && apt update \
+  && apt install -y \
+  $apt
+
+ENTRYPOINT ['sh', '-c']
+

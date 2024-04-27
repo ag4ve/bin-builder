@@ -1,3 +1,4 @@
+FROM $from
 
 ARG UNAME=test
 ARG UID=1000
