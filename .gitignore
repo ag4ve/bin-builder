@@ -1,4 +1,6 @@
 
 assets/*
 
-*/Dockerfile
+*/Dockerfile.*
+
+!/includes/*
